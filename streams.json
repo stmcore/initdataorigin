@@ -1,0 +1,638 @@
+[
+  {
+    "StreamName": "001",
+    "ChannelName": "CNN HD"
+  },
+  {
+    "StreamName": "007",
+    "ChannelName": "True Spark play"
+  },
+  {
+    "StreamName": "008",
+    "ChannelName": "Discovery Channel"
+  },
+  {
+    "StreamName": "013",
+    "ChannelName": "TrueSport 2"
+  },
+  {
+    "StreamName": "024",
+    "ChannelName": "Animal Planet HD"
+  },
+  {
+    "StreamName": "027",
+    "ChannelName": "CCTV4"
+  },
+  {
+    "StreamName": "028",
+    "ChannelName": "TV 5 Monde"
+  },
+  {
+    "StreamName": "034",
+    "ChannelName": "True X-zyte HD"
+  },
+  {
+    "StreamName": "040",
+    "ChannelName": "True Inside HD"
+  },
+  {
+    "StreamName": "045",
+    "ChannelName": "TrueTennis HD"
+  },
+  {
+    "StreamName": "046",
+    "ChannelName": "Bloomberg"
+  },
+  {
+    "StreamName": "056",
+    "ChannelName": "TrueSport 5"
+  },
+  {
+    "StreamName": "057",
+    "ChannelName": "True Movie Hits"
+  },
+  {
+    "StreamName": "058",
+    "ChannelName": "True Explore Wild"
+  },
+  {
+    "StreamName": "060",
+    "ChannelName": "True Explore Life"
+  },
+  {
+    "StreamName": "061",
+    "ChannelName": "True Explore Sci"
+  },
+  {
+    "StreamName": "062",
+    "ChannelName": "TrueSport HD 4"
+  },
+  {
+    "StreamName": "068",
+    "ChannelName": "TLC HD"
+  },
+  {
+    "StreamName": "072",
+    "ChannelName": "Disney Channel"
+  },
+  {
+    "StreamName": "073",
+    "ChannelName": "Disney Junior"
+  },
+  {
+    "StreamName": "074",
+    "ChannelName": "TNN 2"
+  },
+  {
+    "StreamName": "075",
+    "ChannelName": "TrueSport 6"
+  },
+  {
+    "StreamName": "081",
+    "ChannelName": "True Asian Series HD"
+  },
+  {
+    "StreamName": "088",
+    "ChannelName": "Sports Illustrared(NFL Network)"
+  },
+  {
+    "StreamName": "089",
+    "ChannelName": "Nickelodeon"
+  },
+  {
+    "StreamName": "091",
+    "ChannelName": "Phoenix InfoNews"
+  },
+  {
+    "StreamName": "094",
+    "ChannelName": "True Thai Film"
+  },
+  {
+    "StreamName": "095",
+    "ChannelName": "Golf Channel Thailand HD"
+  },
+  {
+    "StreamName": "096",
+    "ChannelName": "TVN"
+  },
+  {
+    "StreamName": "097",
+    "ChannelName": "TrueSport HD"
+  },
+  {
+    "StreamName": "101",
+    "ChannelName": "True spark jump"
+  },
+  {
+    "StreamName": "105",
+    "ChannelName": "TrueSport 7"
+  },
+  {
+    "StreamName": "107",
+    "ChannelName": "Reality HD"
+  },
+  {
+    "StreamName": "108",
+    "ChannelName": "Super Bunterng"
+  },
+  {
+    "StreamName": "109",
+    "ChannelName": "Thai Thai"
+  },
+  {
+    "StreamName": "114",
+    "ChannelName": "Very TV"
+  },
+  {
+    "StreamName": "116",
+    "ChannelName": "National Geographic HD"
+  },
+  {
+    "StreamName": "117",
+    "ChannelName": "Discovery Asia HD"
+  },
+  {
+    "StreamName": "121",
+    "ChannelName": "KMTV HD"
+  },
+  {
+    "StreamName": "122",
+    "ChannelName": "i-Concerts HD"
+  },
+  {
+    "StreamName": "123",
+    "ChannelName": "TrueSport HD 2"
+  },
+  {
+    "StreamName": "127",
+    "ChannelName": "True shopping"
+  },
+  {
+    "StreamName": "128",
+    "ChannelName": "Rama Channel"
+  },
+  {
+    "StreamName": "135",
+    "ChannelName": "TNN 24 HD"
+  },
+  {
+    "StreamName": "139",
+    "ChannelName": "True Plook Panya HD"
+  },
+  {
+    "StreamName": "141",
+    "ChannelName": "History Channel HD"
+  },
+  {
+    "StreamName": "142",
+    "ChannelName": "KBS World HD"
+  },
+  {
+    "StreamName": "143",
+    "ChannelName": "Cartoon Club"
+  },
+  {
+    "StreamName": "152",
+    "ChannelName": "M Channel"
+  },
+  {
+    "StreamName": "154",
+    "ChannelName": "Voice TV"
+  },
+  {
+    "StreamName": "159",
+    "ChannelName": "True Music HD"
+  },
+  {
+    "StreamName": "163",
+    "ChannelName": "H2"
+  },
+  {
+    "StreamName": "164",
+    "ChannelName": "Outdoor HD"
+  },
+  {
+    "StreamName": "165",
+    "ChannelName": "Motor Visions HD"
+  },
+  {
+    "StreamName": "166",
+    "ChannelName": "NBA TV HD"
+  },
+  {
+    "StreamName": "171",
+    "ChannelName": "Smart SME Channel"
+  },
+  {
+    "StreamName": "173",
+    "ChannelName": "Disney XD HD"
+  },
+  {
+    "StreamName": "174",
+    "ChannelName": "LifeTime HD"
+  },
+  {
+    "StreamName": "176",
+    "ChannelName": "True Film HD"
+  },
+  {
+    "StreamName": "177",
+    "ChannelName": "RTL CBS Entertainment HD"
+  },
+  {
+    "StreamName": "178",
+    "ChannelName": "Fashion TV HD"
+  },
+  {
+    "StreamName": "184",
+    "ChannelName": "TrueSport HD 3"
+  },
+  {
+    "StreamName": "191",
+    "ChannelName": "Food Network HD"
+  },
+  {
+    "StreamName": "192",
+    "ChannelName": "Cartoon Network HD"
+  },
+  {
+    "StreamName": "193",
+    "ChannelName": "BBC World News HD"
+  },
+  {
+    "StreamName": "202",
+    "ChannelName": "BeIN Sport HD1"
+  },
+  {
+    "StreamName": "207",
+    "ChannelName": "True4U HD"
+  },
+  {
+    "StreamName": "208",
+    "ChannelName": "RTL CBS Extreme HD"
+  },
+  {
+    "StreamName": "211",
+    "ChannelName": "NHK World TV"
+  },
+  {
+    "StreamName": "214",
+    "ChannelName": "Asian Food Channel"
+  },
+  {
+    "StreamName": "215",
+    "ChannelName": "BeIn Sport HD 2"
+  },
+  {
+    "StreamName": "216",
+    "ChannelName": "BeIn Sport HD 3"
+  },
+  {
+    "StreamName": "217",
+    "ChannelName": "BeIn Sport HD 4"
+  },
+  {
+    "StreamName": "218",
+    "ChannelName": "True select SD"
+  },
+  {
+    "StreamName": "219",
+    "ChannelName": "BeIn Sport 5"
+  },
+  {
+    "StreamName": "220",
+    "ChannelName": "BeIn Sport 6"
+  },
+  {
+    "StreamName": "221",
+    "ChannelName": "True Film HD2"
+  },
+  {
+    "StreamName": "222",
+    "ChannelName": "Paramount HD"
+  },
+  {
+    "StreamName": "224",
+    "ChannelName": "Celestial Classic Movies"
+  },
+  {
+    "StreamName": "225",
+    "ChannelName": "Warner TV HD"
+  },
+  {
+    "StreamName": "226",
+    "ChannelName": "Sony HD"
+  },
+  {
+    "StreamName": "bk",
+    "ChannelName": "BK"
+  },
+  {
+    "StreamName": "c03",
+    "ChannelName": "CH 3 HD"
+  },
+  {
+    "StreamName": "c05",
+    "ChannelName": "TV 5 HD1 (CH 5)"
+  },
+  {
+    "StreamName": "c07",
+    "ChannelName": "Channel 7 HD"
+  },
+  {
+    "StreamName": "c07",
+    "ChannelName": "Channel 7 SD"
+  },
+  {
+    "StreamName": "c09",
+    "ChannelName": "MCOT HD"
+  },
+  {
+    "StreamName": "c11",
+    "ChannelName": "NBT HD"
+  },
+  {
+    "StreamName": "c12",
+    "ChannelName": "ThaiPBS HD"
+  },
+  {
+    "StreamName": "ca03",
+    "ChannelName": "Russia Today"
+  },
+  {
+    "StreamName": "ca05",
+    "ChannelName": "CCTV(CGTN)"
+  },
+  {
+    "StreamName": "d05",
+    "ChannelName": "Thairath TV HD"
+  },
+  {
+    "StreamName": "d11",
+    "ChannelName": "New tv 18"
+  },
+  {
+    "StreamName": "d13",
+    "ChannelName": "SPRING NEWS"
+  },
+  {
+    "StreamName": "d20",
+    "ChannelName": "YTN Korea"
+  },
+  {
+    "StreamName": "d23",
+    "ChannelName": "BRIGHT TV"
+  },
+  {
+    "StreamName": "d24",
+    "ChannelName": "Australia Network"
+  },
+  {
+    "StreamName": "d33",
+    "ChannelName": "3 SD"
+  },
+  {
+    "StreamName": "d43",
+    "ChannelName": "MONO 29"
+  },
+  {
+    "StreamName": "d48",
+    "ChannelName": "3 Family"
+  },
+  {
+    "StreamName": "d54",
+    "ChannelName": "MCOT Family"
+  },
+  {
+    "StreamName": "d56",
+    "ChannelName": "ONE HD"
+  },
+  {
+    "StreamName": "d62",
+    "ChannelName": "CH 8"
+  },
+  {
+    "StreamName": "d75",
+    "ChannelName": "DW - Deutsche Welle"
+  },
+  {
+    "StreamName": "d76",
+    "ChannelName": "GMM25"
+  },
+  {
+    "StreamName": "d78",
+    "ChannelName": "NATION TV"
+  },
+  {
+    "StreamName": "d81",
+    "ChannelName": "NOW 26"
+  },
+  {
+    "StreamName": "d83",
+    "ChannelName": "Workpoint TV"
+  },
+  {
+    "StreamName": "da0",
+    "ChannelName": "Amarin TV HD"
+  },
+  {
+    "StreamName": "da1",
+    "ChannelName": "TGN"
+  },
+  {
+    "StreamName": "da7",
+    "ChannelName": "PPTV HD"
+  },
+  {
+    "StreamName": "ev01",
+    "ChannelName": "ev01"
+  },
+  {
+    "StreamName": "ev02",
+    "ChannelName": "ev02"
+  },
+  {
+    "StreamName": "ev03",
+    "ChannelName": "ev03"
+  },
+  {
+    "StreamName": "he001",
+    "ChannelName": "Trueid1"
+  },
+  {
+    "StreamName": "he002",
+    "ChannelName": "Trueid2"
+  },
+  {
+    "StreamName": "he003",
+    "ChannelName": "Trueid3"
+  },
+  {
+    "StreamName": "he004",
+    "ChannelName": "Trueid4"
+  },
+  {
+    "StreamName": "he005",
+    "ChannelName": "Trueid5"
+  },
+  {
+    "StreamName": "ht001",
+    "ChannelName": "AXN HD"
+  },
+  {
+    "StreamName": "ht002",
+    "ChannelName": "FOX Thai HD"
+  },
+  {
+    "StreamName": "ht003",
+    "ChannelName": "FOX Sport HD"
+  },
+  {
+    "StreamName": "ht004",
+    "ChannelName": "FOX Sport 2 HD"
+  },
+  {
+    "StreamName": "ht005",
+    "ChannelName": "Love Nature HD"
+  },
+  {
+    "StreamName": "ht006",
+    "ChannelName": "BBC Earth HD"
+  },
+  {
+    "StreamName": "ht007",
+    "ChannelName": "FOX Family Movies HD"
+  },
+  {
+    "StreamName": "ht008",
+    "ChannelName": "FOX Action Movies HD"
+  },
+  {
+    "StreamName": "ht009",
+    "ChannelName": "FOX Movies Premium HD"
+  },
+  {
+    "StreamName": "ht010",
+    "ChannelName": "Diva Universal HD"
+  },
+  {
+    "StreamName": "o002",
+    "ChannelName": "Aljazeera"
+  },
+  {
+    "StreamName": "o014",
+    "ChannelName": "Ja Ting Ja"
+  },
+  {
+    "StreamName": "o015",
+    "ChannelName": "SBB TV"
+  },
+  {
+    "StreamName": "o016",
+    "ChannelName": "Dharma TV"
+  },
+  {
+    "StreamName": "o017",
+    "ChannelName": "CH 2"
+  },
+  {
+    "StreamName": "o018",
+    "ChannelName": "JKN"
+  },
+  {
+    "StreamName": "o019",
+    "ChannelName": "Gen C"
+  },
+  {
+    "StreamName": "o020",
+    "ChannelName": "Mangorn"
+  },
+  {
+    "StreamName": "o023",
+    "ChannelName": "Fan TV"
+  },
+  {
+    "StreamName": "o027",
+    "ChannelName": "SabaideeTV"
+  },
+  {
+    "StreamName": "o029",
+    "ChannelName": "Major MIX Channel"
+  },
+  {
+    "StreamName": "o031",
+    "ChannelName": "SMM TV"
+  },
+  {
+    "StreamName": "o034",
+    "ChannelName": "Five Channel"
+  },
+  {
+    "StreamName": "o040",
+    "ChannelName": "NBT World"
+  },
+  {
+    "StreamName": "o042",
+    "ChannelName": "MRTV live"
+  },
+  {
+    "StreamName": "o043",
+    "ChannelName": "MRTV-4"
+  },
+  {
+    "StreamName": "o045",
+    "ChannelName": "5 Plus"
+  },
+  {
+    "StreamName": "o053",
+    "ChannelName": "Channel 7 Myanmar"
+  },
+  {
+    "StreamName": "o058",
+    "ChannelName": "NhangDang"
+  },
+  {
+    "StreamName": "o062",
+    "ChannelName": "Lao Star"
+  },
+  {
+    "StreamName": "o066",
+    "ChannelName": "TVK"
+  },
+  {
+    "StreamName": "o072",
+    "ChannelName": "TCCTV"
+  },
+  {
+    "StreamName": "sc001",
+    "ChannelName": "Zeenung"
+  },
+  {
+    "StreamName": "st002",
+    "ChannelName": "GEM"
+  },
+  {
+    "StreamName": "st003",
+    "ChannelName": "BBC Lifestyle"
+  },
+  {
+    "StreamName": "st004",
+    "ChannelName": "FOX Sport 3"
+  },
+  {
+    "StreamName": "st005",
+    "ChannelName": "CNBC"
+  },
+  {
+    "StreamName": "st006",
+    "ChannelName": "True series"
+  },
+  {
+    "StreamName": "st007",
+    "ChannelName": "True Film Asia"
+  },
+  {
+    "StreamName": "st008",
+    "ChannelName": "TVB"
+  }
+]
