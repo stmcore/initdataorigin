@@ -9,7 +9,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/get-stream-origin/digestauth"
+	"github.com/stmcore/digestauth"
 )
 
 type Server struct {
