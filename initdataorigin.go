@@ -89,6 +89,7 @@ func (self *DataOrigins) UpdateByteInByChannel(chName string) {
 		xml.Unmarshal([]byte(data), &stat)
 
 		self.Data[chName][index].BytesIn = stat.BytesIn
+		self.Data[chName][index].TimeStamp = time.Now()
 
 	}
 }
@@ -209,7 +210,6 @@ func (self *DataOrigins) Init() {
 								AppInstance: applicationInstance.Name,
 								ChannelName: chname,
 								FileStream:  stream.Name,
-								TimeStamp:   time.Now(),
 							})
 						}
 					}
