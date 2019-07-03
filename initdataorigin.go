@@ -33,8 +33,8 @@ type DataOrigin struct {
 	ChannelName string
 	Code        string
 	FileStream  string
-	BytesIn     int
 	TimeStamp   time.Time
+	BytesIn     int
 }
 
 type VHosts struct {
