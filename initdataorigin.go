@@ -8,6 +8,7 @@ import (
 	"log"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/stmcore/digestauth"
 )
@@ -33,6 +34,7 @@ type DataOrigin struct {
 	Code        string
 	FileStream  string
 	BytesIn     int
+	TimeStamp   time.Time
 }
 
 type VHosts struct {
@@ -87,6 +89,7 @@ func (self *DataOrigins) UpdateByteInByChannel(chName string) {
 		xml.Unmarshal([]byte(data), &stat)
 
 		self.Data[chName][index].BytesIn = stat.BytesIn
+
 	}
 }
 
@@ -206,6 +209,7 @@ func (self *DataOrigins) Init() {
 								AppInstance: applicationInstance.Name,
 								ChannelName: chname,
 								FileStream:  stream.Name,
+								TimeStamp:   time.Now(),
 							})
 						}
 					}
