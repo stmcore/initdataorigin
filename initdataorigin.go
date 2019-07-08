@@ -79,7 +79,7 @@ func (self *DataOrigins) UpdateByteInByChannel(chName string) {
 		lastTwoIP := strings.Join(arrIP[len(arrIP)-2:], ".")
 
 		url := "http://" + v.IP + ":8087/v2/servers/" + v.Hostname + "/vhosts/" + v.VHost + "/applications/" + v.App + "/instances/" + v.AppInstance + "/incomingstreams/" + v.FileStream + "/monitoring/current"
-		data, err := digest.GetInfo(url, "sysadm", "1down2go@"+lastTwoIP, "GET")
+		data, err := digest.GetInfo(url, "sysadm", "C0rE#"+lastTwoIP, "GET")
 
 		if err != nil {
 			//log.Println(err)
