@@ -124,7 +124,7 @@ func (self *DataOrigins) UpdateByteInAllChannels() {
 
 			url := "http://" + v.IP + ":8087/v2/servers/" + v.Hostname + "/vhosts/" + v.VHost + "/applications/" + v.App + "/instances/" + v.AppInstance + "/incomingstreams/" + v.FileStream + "/monitoring/current"
 			username := "sysadm"
-			password := "1down2go@" + lastTwoIP
+			password := "C0rE#" + lastTwoIP
 
 			go self.callOriginAPI(url, username, password, key, index, wg)
 
