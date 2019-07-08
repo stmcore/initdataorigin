@@ -184,7 +184,7 @@ func (self *DataOrigins) Init() {
 		arrIP := strings.Split(server.IP, ".")
 		lastTwoIP := strings.Join(arrIP[len(arrIP)-2:], ".")
 
-		data, err := digest.GetInfo("http://"+server.IP+":8086/connectioncounts", "sysadm", "1down2go@"+lastTwoIP, "GET")
+		data, err := digest.GetInfo("http://"+server.IP+":8086/connectioncounts", "sysadm", "C0rE#"+lastTwoIP, "GET")
 
 		if err != nil {
 			fmt.Println(err)
