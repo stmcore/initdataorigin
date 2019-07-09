@@ -13,16 +13,19 @@ import (
 	"github.com/stmcore/digestauth"
 )
 
+//Server map data from origin api resp
 type Server struct {
-	Hostname string `json: "Hostname"`
-	IP       string `json: "IP"`
-	Rack     string `json: "Rack"`
+	Hostname string `json:"Hostname"`
+	IP       string `json:"IP"`
+	Rack     string `json:"Rack"`
 }
 
+//DataOrigins map data from origin api resp
 type DataOrigins struct {
 	Data map[string][]DataOrigin
 }
 
+//DataOrigin map data from origin api resp
 type DataOrigin struct {
 	Hostname    string
 	IP          string
@@ -37,41 +40,55 @@ type DataOrigin struct {
 	BytesIn     int
 }
 
+//VHosts map data from origin api resp
 type VHosts struct {
 	WowzaStreamingEngine xml.Name `xml:"WowzaStreamingEngine"`
 	VHosts               []VHost  `xml:"VHost"`
 }
 
+//VHost map data from origin api resp
 type VHost struct {
 	Name         string        `xml:"Name"`
 	Applications []Application `xml:"Application"`
 }
 
+//Application map data from origin api resp
 type Application struct {
 	Name                 string                `xml:"Name"`
 	ApplicationInstances []ApplicationInstance `xml:"ApplicationInstance"`
 }
 
+//ApplicationInstance map data from origin api resp
 type ApplicationInstance struct {
 	Name    string   `xml:"Name"`
 	Streams []Stream `xml:"Stream"`
 }
 
+//Stream map data from origin api resp
 type Stream struct {
 	Name string `xml:"Name"`
 }
 
+//CurrentIncomingStreamStatistics map data from origin api resp
 type CurrentIncomingStreamStatistics struct {
 	CurrentIncomingStreamStatistics xml.Name `xml:"CurrentIncomingStreamStatistics"`
 	Name                            string   `xml:"Name"`
-	BytesIn                         int      `xml:BytesIn`
+	BytesIn                         int      `xml:"BytesIn"`
 }
 
+//OriginStream map between channel name and stream name
 type OriginStream struct {
-	ChannelName string `json: "ChannelName"`
-	StreamName  string `json: "StreamName"`
+	ChannelName string `json:"ChannelName"`
+	StreamName  string `json:"StreamName"`
 }
 
+//Username for login origin
+var Username = "sysadm"
+
+//Pattern for login origin
+var Pattern = "C0rE#"
+
+//UpdateByteInByChannel interval update data from origin api
 func (self *DataOrigins) UpdateByteInByChannel(chName string) {
 	var digest digestauth.Digest
 	for index, v := range self.Data[chName] {
@@ -79,7 +96,7 @@ func (self *DataOrigins) UpdateByteInByChannel(chName string) {
 		lastTwoIP := strings.Join(arrIP[len(arrIP)-2:], ".")
 
 		url := "http://" + v.IP + ":8087/v2/servers/" + v.Hostname + "/vhosts/" + v.VHost + "/applications/" + v.App + "/instances/" + v.AppInstance + "/incomingstreams/" + v.FileStream + "/monitoring/current"
-		data, err := digest.GetInfo(url, "sysadm", "C0rE#"+lastTwoIP, "GET")
+		data, err := digest.GetInfo(url, Username, Pattern+lastTwoIP, "GET")
 
 		if err != nil {
 			//log.Println(err)
@@ -123,8 +140,8 @@ func (self *DataOrigins) UpdateByteInAllChannels() {
 			lastTwoIP := strings.Join(arrIP[len(arrIP)-2:], ".")
 
 			url := "http://" + v.IP + ":8087/v2/servers/" + v.Hostname + "/vhosts/" + v.VHost + "/applications/" + v.App + "/instances/" + v.AppInstance + "/incomingstreams/" + v.FileStream + "/monitoring/current"
-			username := "sysadm"
-			password := "C0rE#" + lastTwoIP
+			username := Username
+			password := Pattern + lastTwoIP
 
 			go self.callOriginAPI(url, username, password, key, index, wg)
 
@@ -184,7 +201,7 @@ func (self *DataOrigins) Init() {
 		arrIP := strings.Split(server.IP, ".")
 		lastTwoIP := strings.Join(arrIP[len(arrIP)-2:], ".")
 
-		data, err := digest.GetInfo("http://"+server.IP+":8086/connectioncounts", "sysadm", "C0rE#"+lastTwoIP, "GET")
+		data, err := digest.GetInfo("http://"+server.IP+":8086/connectioncounts", Username, Pattern+lastTwoIP, "GET")
 
 		if err != nil {
 			fmt.Println(err)
