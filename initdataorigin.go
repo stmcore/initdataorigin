@@ -225,6 +225,7 @@ func (self *DataOrigins) Init() {
 								App:         application.Name,
 								AppInstance: applicationInstance.Name,
 								ChannelName: chname,
+								Code:        strings.Split(stream.Name, "_")[0],
 								FileStream:  stream.Name,
 							})
 						}
