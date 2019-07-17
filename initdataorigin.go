@@ -127,6 +127,7 @@ func (self *DataOrigins) callOriginAPI(url, username, password, key string, inde
 	xml.Unmarshal([]byte(data), &stat)
 
 	self.Data[key][index].BytesIn = stat.BytesIn
+	self.Data[key][index].TimeStamp = time.Now()
 }
 
 func (self *DataOrigins) UpdateByteInAllChannels() {
