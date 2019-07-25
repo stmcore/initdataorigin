@@ -194,16 +194,19 @@ func (self *DataOrigins) getChannelFormStream(streamName string) string {
 }
 
 func (self *DataOrigins) Init() {
+	fmt.Println("Initdasdasd")
 	var digest digestauth.Digest
 	dataorigin := make(map[string][]DataOrigin)
 
 	servers := self.GetServers()
 
 	for _, server := range servers {
+		fmt.Println(server.IP)
 		arrIP := strings.Split(server.IP, ".")
 		lastTwoIP := strings.Join(arrIP[len(arrIP)-2:], ".")
 
 		data, err := digest.GetInfo("http://"+server.IP+":8086/connectioncounts", Username, Pattern+lastTwoIP, "GET")
+		fmt.Println("Get connectioncounts from: " + server.IP + "Success")
 
 		if err != nil {
 			fmt.Println(err)
