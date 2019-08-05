@@ -18,6 +18,7 @@ type Server struct {
 	Hostname string `json:"Hostname"`
 	IP       string `json:"IP"`
 	Rack     string `json:"Rack"`
+	Site     string `json:"Site"`
 }
 
 //DataOrigins map data from origin api resp
@@ -89,9 +90,9 @@ var Username = "sysadm"
 var Pattern = "C0rE#"
 
 //UpdateByteInByChannel interval update data from origin api
-func (self *DataOrigins) UpdateByteInByChannel(chName string) {
+func (dataori *DataOrigins) UpdateByteInByChannel(chName string) {
 	var digest digestauth.Digest
-	for index, v := range self.Data[chName] {
+	for index, v := range dataori.Data[chName] {
 		arrIP := strings.Split(v.IP, ".")
 		lastTwoIP := strings.Join(arrIP[len(arrIP)-2:], ".")
 
@@ -105,13 +106,14 @@ func (self *DataOrigins) UpdateByteInByChannel(chName string) {
 		var stat CurrentIncomingStreamStatistics
 		xml.Unmarshal([]byte(data), &stat)
 
-		self.Data[chName][index].BytesIn = stat.BytesIn
-		self.Data[chName][index].TimeStamp = time.Now()
+		dataori.Data[chName][index].BytesIn = stat.BytesIn
+		dataori.Data[chName][index].TimeStamp = time.Now()
 
 	}
 }
 
-func (self *DataOrigins) callOriginAPI(url, username, password, key string, index int, wg *sync.WaitGroup) {
+//callOriginAPI call origin api
+func (dataori *DataOrigins) callOriginAPI(url, username, password, key string, index int, wg *sync.WaitGroup) {
 	defer func() {
 		wg.Done()
 	}()
@@ -126,14 +128,15 @@ func (self *DataOrigins) callOriginAPI(url, username, password, key string, inde
 	var stat CurrentIncomingStreamStatistics
 	xml.Unmarshal([]byte(data), &stat)
 
-	self.Data[key][index].BytesIn = stat.BytesIn
-	self.Data[key][index].TimeStamp = time.Now()
+	dataori.Data[key][index].BytesIn = stat.BytesIn
+	dataori.Data[key][index].TimeStamp = time.Now()
 }
 
-func (self *DataOrigins) UpdateByteInAllChannels() {
+//UpdateByteInAllChannels refesh ByteIn
+func (dataori *DataOrigins) UpdateByteInAllChannels() {
 
 	wg := &sync.WaitGroup{}
-	for key, value := range self.Data {
+	for key, value := range dataori.Data {
 
 		for index, v := range value {
 
@@ -145,7 +148,7 @@ func (self *DataOrigins) UpdateByteInAllChannels() {
 			username := Username
 			password := Pattern + lastTwoIP
 
-			go self.callOriginAPI(url, username, password, key, index, wg)
+			go dataori.callOriginAPI(url, username, password, key, index, wg)
 
 			if index%100 == 0 {
 				wg.Wait()
@@ -155,7 +158,9 @@ func (self *DataOrigins) UpdateByteInAllChannels() {
 	}
 
 }
-func (self *DataOrigins) GetServers() []Server {
+
+//GetServers get servers from hosts.json
+func (dataori *DataOrigins) GetServers() []Server {
 	var data []Server
 	dataServer, err := ioutil.ReadFile("./hosts.json")
 
@@ -167,7 +172,8 @@ func (self *DataOrigins) GetServers() []Server {
 	return data
 }
 
-func (self *DataOrigins) GetStreams() []OriginStream {
+//GetStreams get streams from streams.json
+func (dataori *DataOrigins) GetStreams() []OriginStream {
 	var data []OriginStream
 	dataStream, err := ioutil.ReadFile("./streams.json")
 
@@ -179,9 +185,10 @@ func (self *DataOrigins) GetStreams() []OriginStream {
 	return data
 }
 
-func (self *DataOrigins) getChannelFormStream(streamName string) string {
+//getChannelFormStream get channel from stream name
+func (dataori *DataOrigins) getChannelFormStream(streamName string) string {
 
-	streams := self.GetStreams()
+	streams := dataori.GetStreams()
 
 	for _, stream := range streams {
 		if strings.Split(streamName, "_")[0] == stream.StreamName {
@@ -193,11 +200,12 @@ func (self *DataOrigins) getChannelFormStream(streamName string) string {
 
 }
 
-func (self *DataOrigins) Init() {
+//Init initial data
+func (dataori *DataOrigins) Init() {
 	var digest digestauth.Digest
 	dataorigin := make(map[string][]DataOrigin)
 
-	servers := self.GetServers()
+	servers := dataori.GetServers()
 
 	for _, server := range servers {
 		arrIP := strings.Split(server.IP, ".")
@@ -218,7 +226,7 @@ func (self *DataOrigins) Init() {
 				for _, application := range vhost.Applications {
 					for _, applicationInstance := range application.ApplicationInstances {
 						for _, stream := range applicationInstance.Streams {
-							chname := self.getChannelFormStream(stream.Name)
+							chname := dataori.getChannelFormStream(stream.Name)
 
 							dataorigin[chname] = append(dataorigin[chname], DataOrigin{
 								Hostname:    server.Hostname,
@@ -235,7 +243,7 @@ func (self *DataOrigins) Init() {
 					}
 				}
 			}
-			self.Data = dataorigin
+			dataori.Data = dataorigin
 		}
 
 	}
