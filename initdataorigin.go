@@ -18,6 +18,7 @@ type Server struct {
 	Hostname string `json:"Hostname"`
 	IP       string `json:"IP"`
 	Rack     string `json:"Rack"`
+	Site 	 string `json:"Site"`
 }
 
 //DataOrigins map data from origin api resp
