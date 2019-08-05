@@ -105,8 +105,8 @@ func (dataori DataOrigins) UpdateByteInByChannel(chName string) {
 		var stat CurrentIncomingStreamStatistics
 		xml.Unmarshal([]byte(data), &stat)
 
-		self.Data[chName][index].BytesIn = stat.BytesIn
-		self.Data[chName][index].TimeStamp = time.Now()
+		dataori.Data[chName][index].BytesIn = stat.BytesIn
+		dataori.Data[chName][index].TimeStamp = time.Now()
 
 	}
 }
