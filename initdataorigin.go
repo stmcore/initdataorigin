@@ -90,26 +90,23 @@ var Username = "sysadm"
 var Pattern = "C0rE#"
 
 //UpdateByteInByChannel interval update data from origin api
-func (dataori *DataOrigins) UpdateByteInByChannel(chName string) {
+func UpdateByteInByChannel(stream DataOrigin) int {
 	var digest digestauth.Digest
-	for index, v := range dataori.Data[chName] {
-		arrIP := strings.Split(v.IP, ".")
-		lastTwoIP := strings.Join(arrIP[len(arrIP)-2:], ".")
 
-		url := "http://" + v.IP + ":8087/v2/servers/" + v.Hostname + "/vhosts/" + v.VHost + "/applications/" + v.App + "/instances/" + v.AppInstance + "/incomingstreams/" + v.FileStream + "/monitoring/current"
-		data, err := digest.GetInfo(url, Username, Pattern+lastTwoIP, "GET")
+	arrIP := strings.Split(stream.IP, ".")
+	lastTwoIP := strings.Join(arrIP[len(arrIP)-2:], ".")
 
-		if err != nil {
-			//log.Println(err)
-		}
+	url := "http://" + stream.IP + ":8087/v2/servers/" + stream.Hostname + "/vhosts/" + stream.VHost + "/applications/" + stream.App + "/instances/" + stream.AppInstance + "/incomingstreams/" + stream.FileStream + "/monitoring/current"
+	data, err := digest.GetInfo(url, Username, Pattern+lastTwoIP, "GET")
 
-		var stat CurrentIncomingStreamStatistics
-		xml.Unmarshal([]byte(data), &stat)
-
-		dataori.Data[chName][index].BytesIn = stat.BytesIn
-		dataori.Data[chName][index].TimeStamp = time.Now()
-
+	if err != nil {
+		fmt.Println(err)
 	}
+
+	var stat CurrentIncomingStreamStatistics
+	xml.Unmarshal([]byte(data), &stat)
+
+	return stat.BytesIn
 }
 
 //callOriginAPI call origin api
@@ -228,7 +225,7 @@ func (dataori *DataOrigins) Init() {
 						for _, stream := range applicationInstance.Streams {
 							chname := dataori.getChannelFormStream(stream.Name)
 
-							dataorigin[chname] = append(dataorigin[chname], DataOrigin{
+							data := DataOrigin{
 								Hostname:    server.Hostname,
 								IP:          server.IP,
 								Rack:        server.Rack,
@@ -238,7 +235,12 @@ func (dataori *DataOrigins) Init() {
 								ChannelName: chname,
 								Code:        strings.Split(stream.Name, "_")[0],
 								FileStream:  stream.Name,
-							})
+							}
+
+							data.BytesIn = UpdateByteInByChannel(data)
+							data.TimeStamp = time.Now()
+
+							dataorigin[chname] = append(dataorigin[chname], data)
 						}
 					}
 				}
