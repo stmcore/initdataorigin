@@ -193,6 +193,9 @@ func (dataori *DataOrigins) GetServers() []Server {
 	// }
 
 	err = json.Unmarshal([]byte(dataServer), &data)
+
+	fmt.Println("data: ", data)
+
 	return data
 }
 
