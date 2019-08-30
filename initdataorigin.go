@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 	"sync"
 	"time"
@@ -166,7 +165,7 @@ func (dataori *DataOrigins) GetServers() []Server {
 	client := &http.Client{}
 
 	req, err := http.NewRequest("GET", "https://api.jsonbin.io/b/5d68d494a42e3b278d1a1980", nil)
-	req.Header.Add("secret-key", os.Getenv("SECRETKEY"))
+	req.Header.Add("secret-key", `$2a$10$deeDnrFpQe10Gf5Do88d/uJxZbW6sDeDBcr7VSN1iTAszY2EUoNTG`)
 
 	if err != nil {
 		log.Fatal(err)
@@ -205,7 +204,7 @@ func (dataori *DataOrigins) GetStreams() []OriginStream {
 	client := &http.Client{}
 
 	req, err := http.NewRequest("GET", "https://api.jsonbin.io/b/5d68d2cc0d01cb0b6e3f100e", nil)
-	req.Header.Add("secret-key", os.Getenv("SECRETKEY"))
+	req.Header.Add("secret-key", `$2a$10$deeDnrFpQe10Gf5Do88d/uJxZbW6sDeDBcr7VSN1iTAszY2EUoNTG`)
 
 	if err != nil {
 		log.Fatal(err)
