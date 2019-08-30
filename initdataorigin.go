@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"strings"
 	"sync"
 	"time"
@@ -159,10 +160,36 @@ func (dataori *DataOrigins) UpdateByteInAllChannels() {
 //GetServers get servers from hosts.json
 func (dataori *DataOrigins) GetServers() []Server {
 	var data []Server
-	dataServer, err := ioutil.ReadFile("./hosts.json")
+	// dataServer, err := ioutil.ReadFile("./hosts.json")
+
+	client := &http.Client{}
+
+	req, err := http.NewRequest("GET", "https://api.jsonbin.io/b/5d68d494a42e3b278d1a1980", nil)
+	req.Header.Add("secret-key", `$2a$10$deeDnrFpQe10Gf5Do88d/uJxZbW6sDeDBcr7VSN1iTAszY2EUoNTG`)
 
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var dataServer []byte
+
+	dataServer, err = ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if len(dataServer) == 0 {
+		dataServer, err = ioutil.ReadFile("./hosts.json")
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	err = json.Unmarshal([]byte(dataServer), &data)
@@ -172,10 +199,35 @@ func (dataori *DataOrigins) GetServers() []Server {
 //GetStreams get streams from streams.json
 func (dataori *DataOrigins) GetStreams() []OriginStream {
 	var data []OriginStream
-	dataStream, err := ioutil.ReadFile("./streams.json")
+	// dataStream, err := ioutil.ReadFile("./streams.json")
+
+	client := &http.Client{}
+
+	req, err := http.NewRequest("GET", "https://api.jsonbin.io/b/5d68d2cc0d01cb0b6e3f100e", nil)
+	req.Header.Add("secret-key", `$2a$10$deeDnrFpQe10Gf5Do88d/uJxZbW6sDeDBcr7VSN1iTAszY2EUoNTG`)
 
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var dataStream []byte
+
+	dataStream, err = ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if len(dataStream) == 0 {
+		dataStream, err = ioutil.ReadFile("./streams.json")
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	err = json.Unmarshal([]byte(dataStream), &data)
