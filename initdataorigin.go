@@ -185,12 +185,12 @@ func (dataori *DataOrigins) GetServers() []Server {
 		log.Fatal(err)
 	}
 
-	if len(dataServer) == 0 {
-		dataServer, err = ioutil.ReadFile("./hosts.json")
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
+	// if len(dataServer) == 0 {
+	// 	dataServer, err = ioutil.ReadFile("./hosts.json")
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// }
 
 	err = json.Unmarshal([]byte(dataServer), &data)
 	return data
@@ -223,12 +223,12 @@ func (dataori *DataOrigins) GetStreams() []OriginStream {
 		log.Fatal(err)
 	}
 
-	if len(dataStream) == 0 {
-		dataStream, err = ioutil.ReadFile("./streams.json")
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
+	// if len(dataStream) == 0 {
+	// 	dataStream, err = ioutil.ReadFile("./streams.json")
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// }
 
 	err = json.Unmarshal([]byte(dataStream), &data)
 	return data
