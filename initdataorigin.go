@@ -17,10 +17,10 @@ import (
 
 //Server map data from origin api resp
 type Server struct {
-	Hostname string `json:"Hostname"`
-	IP       string `json:"IP"`
-	Rack     string `json:"Rack"`
-	Site     string `json:"Site"`
+	Hostname string `bson:"Hostname"`
+	IP       string `bson:"IP"`
+	Rack     string `bson:"Rack"`
+	Site     string `bson:"Site"`
 }
 
 //DataOrigins map data from origin api resp
@@ -81,8 +81,8 @@ type CurrentIncomingStreamStatistics struct {
 
 //OriginStream map between channel name and stream name
 type OriginStream struct {
-	ChannelName string `json:"ChannelName"`
-	StreamName  string `json:"StreamName"`
+	ChannelName string `bson:"ChannelName"`
+	StreamName  string `bson:"StreamName"`
 }
 
 //Username for login origin
