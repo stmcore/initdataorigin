@@ -274,10 +274,9 @@ func (dataori *DataOrigins) Init() {
 	var digest digestauth.Digest
 	dataorigin := make(map[string][]DataOrigin)
 
-	servers := dataori.GetServers()
-	dataori.GetStreams()
+	dataori.LoadDataFromMongo()
 
-	for _, server := range servers {
+	for _, server := range dataServers {
 		arrIP := strings.Split(server.IP, ".")
 		lastTwoIP := strings.Join(arrIP[len(arrIP)-2:], ".")
 
