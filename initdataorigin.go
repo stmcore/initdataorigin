@@ -91,7 +91,8 @@ var Username = "sysadm"
 //Pattern for login origin
 var Pattern = "C0rE#"
 
-var Streams []OriginStream
+var dataServers []Server
+var dataStreams []OriginStream
 
 //UpdateByteInByChannel interval update data from origin api
 func (dataori *DataOrigins) UpdateByteInByChannel(chName string) {
@@ -163,7 +164,9 @@ func (dataori *DataOrigins) UpdateByteInAllChannels() {
 
 }
 
-func GetDataFromMongo(url, db, collection string, results []interface{}) {
+//LoadDataFromMongo preload streams data and hosts data before process other func
+func (dataori *DataOrigins) LoadDataFromMongo() {
+
 	clientOptions := options.Client().ApplyURI("mongodb://stmcore:stmcore1212312121@10.18.14.107:27017")
 
 	// Connect to MongoDB
@@ -182,35 +185,56 @@ func GetDataFromMongo(url, db, collection string, results []interface{}) {
 
 	fmt.Println("Connected to MongoDB!")
 
-	cl := client.Database(db).Collection(collection)
+	clHost := client.Database("stmcore-monitor-config").Collection("hosts")
 
 	//filter := bson.D{{}}
 
 	findOptions := options.Find()
-	findOptions.SetLimit(200)
+	findOptions.SetLimit(500)
 
-	cur, err := cl.Find(context.TODO(), bson.D{{}}, findOptions)
+	curHost, err := clHost.Find(context.TODO(), bson.D{{}}, findOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	for cur.Next(context.TODO()) {
+	for curHost.Next(context.TODO()) {
 
 		// create a value into which the single document can be decoded
-		var elem interface{}
-		err := cur.Decode(&elem)
+		var elem Server
+		err := curHost.Decode(&elem)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		results = append(results, elem)
+		dataServers = append(dataServers, elem)
 	}
 
-	if err := cur.Err(); err != nil {
+	if err := curHost.Err(); err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(results)
+	clStream := client.Database("stmcore-monitor-config").Collection("streams")
+
+	curStream, err := clStream.Find(context.TODO(), bson.D{{}}, findOptions)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for curStream.Next(context.TODO()) {
+
+		// create a value into which the single document can be decoded
+		var elem OriginStream
+		err := curStream.Decode(&elem)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		dataStreams = append(dataStreams, elem)
+	}
+
+	if err := curHost.Err(); err != nil {
+		log.Fatal(err)
+	}
 
 	err = client.Disconnect(context.TODO())
 
@@ -222,144 +246,20 @@ func GetDataFromMongo(url, db, collection string, results []interface{}) {
 
 //GetServers get servers from hosts.json
 func (dataori *DataOrigins) GetServers() []Server {
-	var data []Server
-	// dataServer, err := ioutil.ReadFile("./hosts.json")
-
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// err = json.Unmarshal([]byte(dataServer), &data)
-
-	clientOptions := options.Client().ApplyURI("mongodb://stmcore:stmcore1212312121@10.18.14.107:27017")
-
-	// Connect to MongoDB
-	client, err := mongo.Connect(context.TODO(), clientOptions)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Check the connection
-	err = client.Ping(context.TODO(), nil)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("Connected to MongoDB!")
-
-	cl := client.Database("stmcore-monitor-config").Collection("hosts")
-
-	//filter := bson.D{{}}
-
-	findOptions := options.Find()
-	findOptions.SetLimit(500)
-
-	cur, err := cl.Find(context.TODO(), bson.D{{}}, findOptions)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for cur.Next(context.TODO()) {
-
-		// create a value into which the single document can be decoded
-		var elem Server
-		err := cur.Decode(&elem)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		data = append(data, elem)
-	}
-
-	if err := cur.Err(); err != nil {
-		log.Fatal(err)
-	}
-
-	err = client.Disconnect(context.TODO())
-
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println("Connection to MongoDB closed.")
-
-	return data
+	return dataServers
 }
 
 //GetStreams get streams from streams.json
 func (dataori *DataOrigins) GetStreams() []OriginStream {
-	var data []OriginStream
-	// dataStream, err := ioutil.ReadFile("./streams.json")
-
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// err = json.Unmarshal([]byte(dataStream), &data)
-
-	clientOptions := options.Client().ApplyURI("mongodb://stmcore:stmcore1212312121@10.18.14.107:27017")
-
-	// Connect to MongoDB
-	client, err := mongo.Connect(context.TODO(), clientOptions)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Check the connection
-	err = client.Ping(context.TODO(), nil)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("Connected to MongoDB!")
-
-	cl := client.Database("stmcore-monitor-config").Collection("streams")
-
-	//filter := bson.D{{}}
-
-	findOptions := options.Find()
-	findOptions.SetLimit(500)
-
-	cur, err := cl.Find(context.TODO(), bson.D{{}}, findOptions)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for cur.Next(context.TODO()) {
-
-		// create a value into which the single document can be decoded
-		var elem OriginStream
-		err := cur.Decode(&elem)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		data = append(data, elem)
-	}
-
-	if err := cur.Err(); err != nil {
-		log.Fatal(err)
-	}
-
-	err = client.Disconnect(context.TODO())
-
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println("Connection to MongoDB closed.")
-
-	Streams = data
-
-	return data
+	return dataStreams
 }
 
 //getChannelFormStream get channel from stream name
 func (dataori *DataOrigins) getChannelFormStream(streamName string) string {
 
-	for _, stream := range Streams {
+	streams := dataori.GetStreams()
+
+	for _, stream := range streams {
 		if strings.Split(streamName, "_")[0] == stream.StreamName {
 			return stream.ChannelName
 		}
