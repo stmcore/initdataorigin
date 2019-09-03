@@ -168,6 +168,9 @@ func (dataori *DataOrigins) UpdateByteInAllChannels() {
 //LoadDataFromMongo preload streams data and hosts data before process other func
 func (dataori *DataOrigins) LoadDataFromMongo() {
 
+	dataStreams = nil
+	dataServers = nil
+
 	clientOptions := options.Client().ApplyURI(os.Getenv("MONGO_URL"))
 
 	// Connect to MongoDB
