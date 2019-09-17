@@ -320,4 +320,6 @@ func (dataori *DataOrigins) Init() {
 		}
 
 	}
+
+	dataori.UpdateByteInAllChannels()
 }
