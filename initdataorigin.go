@@ -317,9 +317,9 @@ func (dataori *DataOrigins) Init() {
 				}
 			}
 			dataori.Data = dataorigin
+			dataori.UpdateByteInAllChannels()
 		}
 
 	}
 
-	dataori.UpdateByteInAllChannels()
 }
