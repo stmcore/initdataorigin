@@ -22,6 +22,7 @@ type Server struct {
 	IP       string `bson:"IP"`
 	Rack     string `bson:"Rack"`
 	Site     string `bson:"Site"`
+	Active   bool   `bson:"Active"`
 }
 
 //DataOrigins map data from origin api resp
@@ -200,7 +201,7 @@ func (dataori *DataOrigins) LoadDataFromMongo() {
 	findOptions := options.Find()
 	findOptions.SetLimit(500)
 
-	curHost, err := clHost.Find(context.TODO(), bson.D{{}}, findOptions)
+	curHost, err := clHost.Find(context.TODO(), bson.M{}, findOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -214,7 +215,10 @@ func (dataori *DataOrigins) LoadDataFromMongo() {
 			log.Fatal(err)
 		}
 
-		dataServers = append(dataServers, elem)
+		if elem.Active == true {
+			dataServers = append(dataServers, elem)
+		}
+
 	}
 
 	if err := curHost.Err(); err != nil {
@@ -223,7 +227,7 @@ func (dataori *DataOrigins) LoadDataFromMongo() {
 
 	clStream := client.Database("stmcore-monitor-config").Collection("streams")
 
-	curStream, err := clStream.Find(context.TODO(), bson.D{{}}, findOptions)
+	curStream, err := clStream.Find(context.TODO(), bson.M{}, findOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
