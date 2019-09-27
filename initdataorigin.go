@@ -22,7 +22,7 @@ type Server struct {
 	IP       string `bson:"IP"`
 	Rack     string `bson:"Rack"`
 	Site     string `bson:"Site"`
-	Active   string `bson:"Active"`
+	Active   bool   `bson:"Active"`
 }
 
 //DataOrigins map data from origin api resp
@@ -215,7 +215,7 @@ func (dataori *DataOrigins) LoadDataFromMongo() {
 			log.Fatal(err)
 		}
 
-		if elem.Active == "true" {
+		if elem.Active == true {
 			dataServers = append(dataServers, elem)
 		}
 
