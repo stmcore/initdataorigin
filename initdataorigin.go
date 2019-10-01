@@ -319,6 +319,7 @@ func (dataori *DataOrigins) Init() {
 								ChannelName: chname,
 								Code:        strings.Split(stream.Name, "_")[0],
 								FileStream:  stream.Name,
+								BytesIn:     -1,
 							})
 						}
 					}
