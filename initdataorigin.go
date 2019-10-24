@@ -281,6 +281,14 @@ func (dataori *DataOrigins) getChannelFormStream(streamName string) string {
 
 }
 
+func getCodeFromStreamName(streamName string) string {
+	temp := strings.Split(streamName, "_")
+	if temp[0] == "rdo" && len(temp) > 1 {
+		return temp[1]
+	}
+	return temp[0]
+}
+
 //Init initial data
 func (dataori *DataOrigins) Init() {
 	var digest digestauth.Digest
@@ -317,7 +325,7 @@ func (dataori *DataOrigins) Init() {
 								App:         application.Name,
 								AppInstance: applicationInstance.Name,
 								ChannelName: chname,
-								Code:        strings.Split(stream.Name, "_")[0],
+								Code:        getCodeFromStreamName(stream.Name),
 								FileStream:  stream.Name,
 								BytesIn:     -1,
 							})
