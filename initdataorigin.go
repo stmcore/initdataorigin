@@ -284,7 +284,7 @@ func (dataori *DataOrigins) getChannelFormStream(streamName string) string {
 func getCodeFromStreamName(streamName string) string {
 	temp := strings.Split(streamName, "_")
 	if temp[0] == "rdo" && len(temp) > 1 {
-		return temp[1]
+		return strings.Split(temp[1], ".")[0]
 	}
 	return temp[0]
 }
