@@ -272,6 +272,9 @@ func (dataori *DataOrigins) getChannelFormStream(streamName string) string {
 	streams := dataori.GetStreams()
 
 	for _, stream := range streams {
+		if strings.Split(streamName, "_")[0] == "rdo" && strings.Split(streamName, ".")[0] == stream.StreamName {
+			return stream.ChannelName
+		}
 		if strings.Split(streamName, "_")[0] == stream.StreamName {
 			return stream.ChannelName
 		}
