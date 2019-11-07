@@ -166,6 +166,8 @@ func (dataori *DataOrigins) UpdateByteInAllChannels() {
 			}
 
 		}
+
+		wg.Wait()
 	}
 
 }
