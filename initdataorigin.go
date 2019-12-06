@@ -32,24 +32,26 @@ type DataOrigins struct {
 
 //DataOrigin map data from origin api resp
 type DataOrigin struct {
-	Hostname    string
-	IP          string
-	Rack        string
-	VHost       string
-	App         string
-	AppInstance string
-	ChannelName string
-	Code        string
-	FileStream  string
-	TimeStamp   time.Time
-	BytesIn     int
-	BytesInRate int
+	Hostname            string
+	IP                  string
+	Rack                string
+	MessagesInBytesRate float32
+	VHost               string
+	App                 string
+	AppInstance         string
+	ChannelName         string
+	Code                string
+	FileStream          string
+	TimeStamp           time.Time
+	BytesIn             int
+	BytesInRate         int
 }
 
 //VHosts map data from origin api resp
 type VHosts struct {
 	WowzaStreamingEngine xml.Name `xml:"WowzaStreamingEngine"`
 	VHosts               []VHost  `xml:"VHost"`
+	MessagesInBytesRate  float32  `xml:"MessagesInBytesRate"`
 }
 
 //VHost map data from origin api resp
@@ -323,16 +325,17 @@ func (dataori *DataOrigins) Init() {
 							chname := dataori.getChannelFormStream(stream.Name)
 
 							dataorigin[chname] = append(dataorigin[chname], DataOrigin{
-								Hostname:    server.Hostname,
-								IP:          server.IP,
-								Rack:        server.Rack,
-								VHost:       vhost.Name,
-								App:         application.Name,
-								AppInstance: applicationInstance.Name,
-								ChannelName: chname,
-								Code:        getCodeFromStreamName(stream.Name),
-								FileStream:  stream.Name,
-								BytesIn:     -1,
+								Hostname:            server.Hostname,
+								IP:                  server.IP,
+								Rack:                server.Rack,
+								MessagesInBytesRate: vhosts.MessagesInBytesRate,
+								VHost:               vhost.Name,
+								App:                 application.Name,
+								AppInstance:         applicationInstance.Name,
+								ChannelName:         chname,
+								Code:                getCodeFromStreamName(stream.Name),
+								FileStream:          stream.Name,
+								BytesIn:             -1,
 							})
 						}
 					}
