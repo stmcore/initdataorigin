@@ -296,6 +296,25 @@ func getCodeFromStreamName(streamName string) string {
 	return temp[0]
 }
 
+func checkStreamActive(ip, hostname, vhost, app, appInstant, fileStream string) bool {
+	arrIP := strings.Split(ip, ".")
+	lastTwoIP := strings.Join(arrIP[len(arrIP)-2:], ".")
+
+	url := "http://" + ip + ":8087/v2/servers/" + hostname + "/vhosts/" + vhost + "/applications/" + app + "/instances/" + appInstant + "/incomingstreams/" + fileStream + "/monitoring/current"
+	username := Username
+	password := Pattern + lastTwoIP
+
+	var digest digestauth.Digest
+	data, err := digest.GetInfo(url, username, password, "GET")
+
+	if err != nil && data == nil {
+		return false
+	}
+
+	return true
+
+}
+
 //Init initial data
 func (dataori *DataOrigins) Init() {
 	var digest digestauth.Digest
@@ -322,6 +341,11 @@ func (dataori *DataOrigins) Init() {
 				for _, application := range vhost.Applications {
 					for _, applicationInstance := range application.ApplicationInstances {
 						for _, stream := range applicationInstance.Streams {
+
+							active := checkStreamActive(server.IP, server.IP, vhost.Name, application.Name, applicationInstance.Name, stream.Name)
+
+							log.Println("Check stream active:", active)
+
 							chname := dataori.getChannelFormStream(stream.Name)
 
 							dataorigin[chname] = append(dataorigin[chname], DataOrigin{
