@@ -344,23 +344,26 @@ func (dataori *DataOrigins) Init() {
 
 							active := checkStreamActive(server.IP, server.IP, vhost.Name, application.Name, applicationInstance.Name, stream.Name)
 
-							log.Println("Check stream active:", active)
+							log.Println("Check stream", stream.Name, "active:", active)
 
-							chname := dataori.getChannelFormStream(stream.Name)
+							if active {
+								chname := dataori.getChannelFormStream(stream.Name)
 
-							dataorigin[chname] = append(dataorigin[chname], DataOrigin{
-								Hostname:            server.Hostname,
-								IP:                  server.IP,
-								Rack:                server.Rack,
-								MessagesInBytesRate: vhosts.MessagesInBytesRate,
-								VHost:               vhost.Name,
-								App:                 application.Name,
-								AppInstance:         applicationInstance.Name,
-								ChannelName:         chname,
-								Code:                getCodeFromStreamName(stream.Name),
-								FileStream:          stream.Name,
-								BytesIn:             -1,
-							})
+								dataorigin[chname] = append(dataorigin[chname], DataOrigin{
+									Hostname:            server.Hostname,
+									IP:                  server.IP,
+									Rack:                server.Rack,
+									MessagesInBytesRate: vhosts.MessagesInBytesRate,
+									VHost:               vhost.Name,
+									App:                 application.Name,
+									AppInstance:         applicationInstance.Name,
+									ChannelName:         chname,
+									Code:                getCodeFromStreamName(stream.Name),
+									FileStream:          stream.Name,
+									BytesIn:             -1,
+								})
+							}
+
 						}
 					}
 				}
