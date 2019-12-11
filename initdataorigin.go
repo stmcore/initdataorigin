@@ -300,7 +300,7 @@ func checkStreamActive(ip, hostname, vhost, app, appInstant, fileStream string) 
 	arrIP := strings.Split(ip, ".")
 	lastTwoIP := strings.Join(arrIP[len(arrIP)-2:], ".")
 
-	url := "http://" + ip + ":8087/v2/servers/" + hostname + "/vhosts/" + vhost + "/applications/" + app + "/instances/" + appInstant + "/incomingstreams/" + fileStream + "/monitoring/current"
+	url := "http://" + ip + ":8087/v2/servers/" + hostname + "/vhosts/" + vhost + "/applications/" + app + "/instances/" + appInstant + "/incomingstreams/" + fileStream
 	username := Username
 	password := Pattern + lastTwoIP
 
