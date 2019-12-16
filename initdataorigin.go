@@ -43,6 +43,7 @@ type DataOrigin struct {
 	Code                string
 	FileStream          string
 	TimeStamp           time.Time
+	Uptime              int
 	BytesIn             int
 	BytesInRate         int
 }
@@ -81,6 +82,7 @@ type Stream struct {
 type CurrentIncomingStreamStatistics struct {
 	CurrentIncomingStreamStatistics xml.Name `xml:"CurrentIncomingStreamStatistics"`
 	Name                            string   `xml:"Name"`
+	UpTime                          int      `xml:"Uptime"`
 	BytesIn                         int      `xml:"BytesIn"`
 	BytesInRate                     int      `xml:"BytesInRate"`
 }
@@ -117,6 +119,7 @@ func (dataori *DataOrigins) UpdateByteInByChannel(chName string) {
 		var stat CurrentIncomingStreamStatistics
 		xml.Unmarshal([]byte(data), &stat)
 
+		dataori.Data[chName][index].Uptime = stat.UpTime
 		dataori.Data[chName][index].BytesInRate = stat.BytesInRate
 		dataori.Data[chName][index].BytesIn = stat.BytesIn
 		dataori.Data[chName][index].TimeStamp = time.Now()
@@ -140,6 +143,7 @@ func (dataori *DataOrigins) callOriginAPI(url, username, password, key string, i
 	var stat CurrentIncomingStreamStatistics
 	xml.Unmarshal([]byte(data), &stat)
 
+	dataori.Data[key][index].Uptime = stat.UpTime
 	dataori.Data[key][index].BytesInRate = stat.BytesInRate
 	dataori.Data[key][index].BytesIn = stat.BytesIn
 	dataori.Data[key][index].TimeStamp = time.Now()
