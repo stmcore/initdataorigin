@@ -178,6 +178,57 @@ func (dataori *DataOrigins) UpdateByteInAllChannels() {
 
 }
 
+func (dataori *DataOrigins) UpdateByteInAllChannelsInit(dataOri map[string][]DataOrigin) {
+
+	wg := &sync.WaitGroup{}
+	for key, value := range dataOri {
+
+		for index, v := range value {
+
+			wg.Add(1)
+			arrIP := strings.Split(v.IP, ".")
+			lastTwoIP := strings.Join(arrIP[len(arrIP)-2:], ".")
+
+			url := "http://" + v.IP + ":8087/v2/servers/" + v.Hostname + "/vhosts/" + v.VHost + "/applications/" + v.App + "/instances/" + v.AppInstance + "/incomingstreams/" + v.FileStream + "/monitoring/current"
+			username := Username
+			password := Pattern + lastTwoIP
+
+			//go dataori.callOriginAPI(url, username, password, key, index, wg)
+
+			go func() {
+				defer func() {
+					wg.Done()
+				}()
+
+				var digest digestauth.Digest
+				data, err := digest.GetInfo(url, username, password, "GET")
+
+				if err != nil {
+					//log.Println(err)
+				}
+
+				var stat CurrentIncomingStreamStatistics
+				xml.Unmarshal([]byte(data), &stat)
+
+				dataOri[key][index].Uptime = stat.UpTime
+				dataOri[key][index].BytesInRate = stat.BytesInRate
+				dataOri[key][index].BytesIn = stat.BytesIn
+				dataOri[key][index].TimeStamp = time.Now()
+			}()
+
+			if index%100 == 0 {
+				wg.Wait()
+			}
+
+		}
+
+		wg.Wait()
+	}
+
+	dataori.Data = dataOri
+
+}
+
 //LoadDataFromMongo preload streams data and hosts data before process other func
 func (dataori *DataOrigins) LoadDataFromMongo() {
 
@@ -372,8 +423,8 @@ func (dataori *DataOrigins) Init() {
 					}
 				}
 			}
-			dataori.Data = dataorigin
+			//dataori.Data = dataorigin
 		}
 	}
-	dataori.UpdateByteInAllChannels()
+	dataori.UpdateByteInAllChannelsInit(dataorigin)
 }
