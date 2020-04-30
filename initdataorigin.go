@@ -446,9 +446,9 @@ func (dataori *DataOrigins) Init() {
 							chname := dataori.getChannelFormStream(stream.Name)
 
 							dataorigin[chname] = append(dataorigin[chname], DataOrigin{
-								Hostname:            server.Hostname,
-								IP:                  server.IP,
-								Rack:                server.Rack,
+								Hostname:            host.Hostname,
+								IP:                  host.IP,
+								Rack:                host.Rack,
 								MessagesInBytesRate: server.Vhost.MessagesInBytesRate,
 								VHost:               vhost.Name,
 								App:                 application.Name,
