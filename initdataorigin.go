@@ -389,7 +389,7 @@ func getRedisJSON(hostname, addr string, rh *rejson.Handler) (server Server, err
 		}
 	}()
 	rh.SetRedigoClient(conn)
-	fmt.Println("executing JSONGET for Redigo Client")
+	glg.Info("executing JSONGET for Redigo Client:", hostname)
 
 	serverJSON, err := redis.Bytes(rh.JSONGet(hostname, "."))
 	if err != nil {
@@ -421,7 +421,7 @@ func (dataori *DataOrigins) Init() {
 		// arrIP := strings.Split(server.IP, ".")
 		// lastTwoIP := strings.Join(arrIP[len(arrIP)-2:], ".")
 
-		glg.Info("Getting connectioncounts from: " + host.Hostname + "(" + host.IP + ")" + " ...")
+		//glg.Info("Getting connectioncounts from: " + host.Hostname + "(" + host.IP + ")" + " ...")
 		// data, err := digest.GetInfo("http://"+server.IP+":8086/connectioncounts", Username, Pattern+lastTwoIP, "GET")
 
 		// if err != nil {
