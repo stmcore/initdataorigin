@@ -469,7 +469,7 @@ func (dataori *DataOrigins) Init() {
 			}
 		}
 
-		//dataori.Data = dataorigin
+		dataori.Data = dataorigin
 
 	}
 	//dataori.UpdateByteInAllChannelsInit(dataorigin)
