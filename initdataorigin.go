@@ -2,6 +2,7 @@ package initdataorigin
 
 import (
 	"context"
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"log"
@@ -10,6 +11,9 @@ import (
 	"sync"
 	"time"
 
+	"github.com/gomodule/redigo/redis"
+	"github.com/kpango/glg"
+	"github.com/nitishm/go-rejson"
 	"github.com/stmcore/digestauth"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -23,6 +27,7 @@ type Server struct {
 	Rack     string `bson:"Rack"`
 	Site     string `bson:"Site"`
 	Active   bool   `bson:"Active"`
+	Vhost    VHosts
 }
 
 //DataOrigins map data from origin api resp
@@ -50,9 +55,8 @@ type DataOrigin struct {
 
 //VHosts map data from origin api resp
 type VHosts struct {
-	WowzaStreamingEngine xml.Name `xml:"WowzaStreamingEngine"`
-	VHosts               []VHost  `xml:"VHost"`
-	MessagesInBytesRate  float32  `xml:"MessagesInBytesRate"`
+	VHosts              []VHost `xml:"VHost"`
+	MessagesInBytesRate float32 `xml:"MessagesInBytesRate"`
 }
 
 //VHost map data from origin api resp
@@ -75,16 +79,16 @@ type ApplicationInstance struct {
 
 //Stream map data from origin api resp
 type Stream struct {
-	Name string `xml:"Name"`
+	Name        string `xml:"Name"`
+	CurrentStat CurrentIncomingStreamStatistics
 }
 
 //CurrentIncomingStreamStatistics map data from origin api resp
 type CurrentIncomingStreamStatistics struct {
-	CurrentIncomingStreamStatistics xml.Name `xml:"CurrentIncomingStreamStatistics"`
-	Name                            string   `xml:"Name"`
-	UpTime                          int      `xml:"Uptime"`
-	BytesIn                         int      `xml:"BytesIn"`
-	BytesInRate                     int      `xml:"BytesInRate"`
+	Name        string `xml:"Name"`
+	UpTime      int    `xml:"Uptime"`
+	BytesIn     int    `xml:"BytesIn"`
+	BytesInRate int    `xml:"BytesInRate"`
 }
 
 //OriginStream map between channel name and stream name
@@ -370,61 +374,103 @@ func checkStreamActive(ip, hostname, vhost, app, appInstant, fileStream string) 
 
 }
 
+func getRedisJSON(hostname, addr string, rh *rejson.Handler) (server Server, err error) {
+	// Redigo Client
+
+	conn, err := redis.Dial("tcp", addr)
+	if err != nil {
+		return
+	}
+	defer func() {
+		//_, err = conn.Do("FLUSHALL")
+		err = conn.Close()
+		if err != nil {
+			return
+		}
+	}()
+	rh.SetRedigoClient(conn)
+	fmt.Println("executing JSONGET for Redigo Client")
+
+	serverJSON, err := redis.Bytes(rh.JSONGet(hostname, "."))
+	if err != nil {
+
+		return
+	}
+
+	server = Server{}
+	err = json.Unmarshal(serverJSON, &server)
+	if err != nil {
+
+		return
+	}
+
+	return
+}
+
 //Init initial data
 func (dataori *DataOrigins) Init() {
-	var digest digestauth.Digest
+	//var digest digestauth.Digest
 	dataorigin := make(map[string][]DataOrigin)
+
+	rh := rejson.NewReJSONHandler()
+	redisURL := os.Getenv("REDIS_URL")
 
 	dataori.LoadDataFromMongo()
 
-	for _, server := range dataServers {
-		arrIP := strings.Split(server.IP, ".")
-		lastTwoIP := strings.Join(arrIP[len(arrIP)-2:], ".")
+	for _, host := range dataServers {
+		// arrIP := strings.Split(server.IP, ".")
+		// lastTwoIP := strings.Join(arrIP[len(arrIP)-2:], ".")
 
-		fmt.Println("Getting connectioncounts from: " + server.IP + " ...")
-		data, err := digest.GetInfo("http://"+server.IP+":8086/connectioncounts", Username, Pattern+lastTwoIP, "GET")
+		// fmt.Println("Getting connectioncounts from: " + server.IP + " ...")
+		// data, err := digest.GetInfo("http://"+server.IP+":8086/connectioncounts", Username, Pattern+lastTwoIP, "GET")
+
+		// if err != nil {
+		// 	fmt.Println(err)
+		// }
+
+		server, err := getRedisJSON(host.Hostname, redisURL, rh)
 
 		if err != nil {
-			fmt.Println(err)
-		}
-
-		if data != nil {
-			var vhosts VHosts
-			xml.Unmarshal([]byte(data), &vhosts)
-
-			for _, vhost := range vhosts.VHosts {
+			glg.Warn("get redis error", err)
+		} else {
+			for _, vhost := range server.Vhost.VHosts {
 				for _, application := range vhost.Applications {
 					for _, applicationInstance := range application.ApplicationInstances {
 						for _, stream := range applicationInstance.Streams {
 
-							active := checkStreamActive(server.IP, server.IP, vhost.Name, application.Name, applicationInstance.Name, stream.Name)
+							// active := checkStreamActive(server.IP, server.IP, vhost.Name, application.Name, applicationInstance.Name, stream.Name)
 
-							log.Println("Check stream", stream.Name, "active:", active)
+							// log.Println("Check stream", stream.Name, "active:", active)
 
-							if active {
-								chname := dataori.getChannelFormStream(stream.Name)
+							// if active {
+							chname := dataori.getChannelFormStream(stream.Name)
 
-								dataorigin[chname] = append(dataorigin[chname], DataOrigin{
-									Hostname:            server.Hostname,
-									IP:                  server.IP,
-									Rack:                server.Rack,
-									MessagesInBytesRate: vhosts.MessagesInBytesRate,
-									VHost:               vhost.Name,
-									App:                 application.Name,
-									AppInstance:         applicationInstance.Name,
-									ChannelName:         chname,
-									Code:                getCodeFromStreamName(stream.Name),
-									FileStream:          stream.Name,
-									BytesIn:             -1,
-								})
-							}
+							dataorigin[chname] = append(dataorigin[chname], DataOrigin{
+								Hostname:            server.Hostname,
+								IP:                  server.IP,
+								Rack:                server.Rack,
+								MessagesInBytesRate: server.Vhost.MessagesInBytesRate,
+								VHost:               vhost.Name,
+								App:                 application.Name,
+								AppInstance:         applicationInstance.Name,
+								ChannelName:         chname,
+								Code:                getCodeFromStreamName(stream.Name),
+								FileStream:          stream.Name,
+								Uptime:              stream.CurrentStat.UpTime,
+								BytesIn:             stream.CurrentStat.BytesIn,
+								BytesInRate:         stream.CurrentStat.BytesInRate,
+								TimeStamp:           time.Now(),
+							})
+							//}
 
 						}
 					}
 				}
 			}
-			//dataori.Data = dataorigin
 		}
+
+		//dataori.Data = dataorigin
+
 	}
-	dataori.UpdateByteInAllChannelsInit(dataorigin)
+	//dataori.UpdateByteInAllChannelsInit(dataorigin)
 }
