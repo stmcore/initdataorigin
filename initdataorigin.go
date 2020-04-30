@@ -264,7 +264,7 @@ func (dataori *DataOrigins) LoadDataFromMongo() {
 	findOptions := options.Find()
 	findOptions.SetLimit(500)
 
-	curHost, err := clHost.Find(context.TODO(), bson.M{}, findOptions)
+	curHost, err := clHost.Find(context.TODO(), bson.M{"Active": true}, findOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
