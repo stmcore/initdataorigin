@@ -40,6 +40,7 @@ type DataOrigin struct {
 	Hostname            string
 	IP                  string
 	Rack                string
+	Type                string
 	MessagesInBytesRate float32
 	VHost               string
 	App                 string
