@@ -27,6 +27,7 @@ type Server struct {
 	Rack     string `bson:"Rack"`
 	Site     string `bson:"Site"`
 	Active   bool   `bson:"Active"`
+	Type     string `bson:"Type"`
 	Vhost    VHosts
 }
 
@@ -453,6 +454,7 @@ func (dataori *DataOrigins) Init() {
 									Hostname:            host.Hostname,
 									IP:                  host.IP,
 									Rack:                host.Rack,
+									Type:                host.Type,
 									MessagesInBytesRate: server.Vhost.MessagesInBytesRate,
 									VHost:               vhost.Name,
 									App:                 application.Name,
